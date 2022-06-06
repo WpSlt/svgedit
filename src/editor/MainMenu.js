@@ -268,10 +268,12 @@ class MainMenu {
         .getElementById('se-export-dialog')
         .setAttribute('dialog', 'open')
     })
+    /*
     $id('se-export-dialog').addEventListener(
       'change',
       this.clickExport.bind(this)
     )
+    */
     $id('tool_docprops').addEventListener(
       'click',
       this.showDocProperties.bind(this)
