@@ -7,7 +7,7 @@
  * @copyright 2010 Alexis Deveria, 2010 Pavol Rusnak, 2010 Jeff Schiller, 2021 OptimistikSAS
  *
  */
-import 'pathseg' // SVGPathSeg Polyfill (see https://github.com/progers/pathseg)
+//import 'pathseg' // SVGPathSeg Polyfill (see https://github.com/progers/pathseg)
 
 import * as pathModule from './path.js'
 import * as history from './history.js'

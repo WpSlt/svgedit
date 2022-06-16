@@ -5,9 +5,9 @@
  * @copyright 2011 Jeff Schiller
  */
 
-import { jsPDF as JsPDF } from 'jspdf/dist/jspdf.es.min.js'
-import 'svg2pdf.js/dist/svg2pdf.es.js'
-import html2canvas from 'html2canvas'
+import { jsPDF as JsPDF } from '../../node_modules/jspdf/dist/jspdf.es.min.js'
+import '../../node_modules/svg2pdf.js/dist/svg2pdf.es.js'
+import html2canvas from '../../node_modules/html2canvas/dist/html2canvas.esm.js'
 import * as hstry from './history.js'
 import {
   text2xml,
