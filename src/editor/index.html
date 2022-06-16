@@ -27,7 +27,7 @@
     <input id="text" style="width:0;height:0;opacity: 0"/>
     <script type="module">
 /* globals canvas */
-import SvgCanvas from '../src/svgcanvas/svgcanvas.js'
+import SvgCanvas from '../svgcanvas/svgcanvas.js'
 
 const container = document.querySelector('#editorContainer')
 const { width, height } = { width: 500, height: 300 }
@@ -41,7 +41,7 @@ const config = {
   initStroke: { color: '000000', opacity: 1, width: 1 },
   text: { stroke_width: 0, font_size: 24, font_family: 'serif' },
   initOpacity: 1,
-  imgPath: '../src/editor/images',
+  imgPath: 'images',
   dimensions: [ width, height ],
   baseUnit: 'px'
 }
