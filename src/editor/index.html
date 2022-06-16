@@ -1,55 +1,70 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Minimal demo of SvgCanvas</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <style> #svgroot { overflow: hidden; } </style>
+    <link rel="shortcut icon" type="image/x-icon" href="/sample.svg" />
+  </head>
 
-<head>
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <!-- No-op until loaded dynamically (could make configurable) -->
-  <link rel="icon" href="images/logo.svg">
-  <!-- STYLESHEETS (others loaded dynamically) -->
-  <style id="styleoverrides" media="screen"></style>
-  <link href="./svgedit.css" rel="stylesheet" media="all">
-  </link>
-  <!-- Lacking browser support -->
-  <script type="module" src="./browser-not-supported.js"></script>
-  <title>SVG-edit</title>
-</head>
+  <body>
+    <h1>Minimal demo of SvgCanvas</h1>
 
-<body style="margin:0">
-  <!-- svgedit container can be positionned anywhere in the DOM
-       but it must have a width and a height -->
-  <!--
-  <h1>SVGEdit</h1>
-  <div id="container" style="width:100%;height:550px"></div>
-  <h1>End</h1>
-  -->
-  <div id="container" style="width:100%;height:100vh"></div>
-</body>
- <!-- If you do not wish to add extensions by URL, you can add calls
-      within the following file to svgEditor.setConfig -->
-      <script type="module">
-        import Editor from './Editor.js'
-/* for available options see the file `docs/tutorials/ConfigOptions.md */
-const svgEditor = new Editor(document.getElementById('container'))
-svgEditor.init()
-svgEditor.setConfig({
-          allowInitialUserOverride: true,
-          extensions: [],
-          noDefaultExtensions: false,
-          userExtensions: [/* { pathName: './react-extensions/react-test/dist/react-test.js' } */]
-        })
-// Variable XDOMAIN below is created by Rollup for the Xdomain build (see rollup.config.js)
-/* globals XDOMAIN */
-try { // try clause to avoid js to complain if XDOMAIN undefined
-          if (XDOMAIN) {
-            svgEditor.setConfig({
-              canvasName: 'xdomain', // Namespace this
-              allowedOrigins: [ '*' ]
-            })
-    console.info('xdomain config activated')
-  }
-        } catch (error) { /* empty fn */ }
-      </script>
+    <div id="editorContainer"></div>
+
+    <div>
+      [<button onclick="canvas.setMode('select')">Select</button>
+      <button onclick="canvas.setMode('circle')">Circle</button>
+      <button onclick="canvas.setMode('rect')">Rect</button>
+      <button onclick="canvas.setMode('text')">Text</button>]
+      <button onclick="fill('#ff0000')">Fill Red</button>
+      <button onclick="canvas.deleteSelectedElements()">Delete Selected</button>
+      <button onclick="canvas.clear(); canvas.updateCanvas(width, height);">Clear All</button>
+      <button onclick="alert(canvas.getSvgString())">Get SVG</button>
+    </div>
+    <!-- Not visible, but useful -->
+    <input id="text" style="width:0;height:0;opacity: 0"/>
+    <script type="module">
+/* globals canvas */
+import SvgCanvas from '../src/svgcanvas/svgcanvas.js'
+
+const container = document.querySelector('#editorContainer')
+const { width, height } = { width: 500, height: 300 }
+window.width = width
+window.height = height
+
+const hiddenTextTagId = 'text'
+
+const config = {
+  initFill: { color: 'FFFFFF', opacity: 1 },
+  initStroke: { color: '000000', opacity: 1, width: 1 },
+  text: { stroke_width: 0, font_size: 24, font_family: 'serif' },
+  initOpacity: 1,
+  imgPath: '../src/editor/images',
+  dimensions: [ width, height ],
+  baseUnit: 'px'
+}
+
+window.canvas = new SvgCanvas(container, config)
+canvas.updateCanvas(width, height)
+
+window.fill = function (colour) {
+  canvas.getSelectedElements().forEach((el) => {
+    el.setAttribute('fill', colour)
+  })
+}
+
+const hiddenTextTag = window.canvas.$id(hiddenTextTagId)
+window.canvas.textActions.setInputElem(hiddenTextTag)
+
+const addListenerMulti = (element, eventNames, listener) => {
+  eventNames.split(' ').forEach((eventName) => element.addEventListener(eventName, listener, false))
+}
+
+addListenerMulti(hiddenTextTag, 'keyup input', (evt) => {
+  window.canvas.setTextContent(evt.currentTarget.value)
+})
+    </script>
+  </body>
 </html>
