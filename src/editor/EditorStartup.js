@@ -104,7 +104,7 @@ class EditorStartup {
       // Export dialog added to DOM
       const exportDialog = document.createElement('se-export-dialog')
       exportDialog.setAttribute('id', 'se-export-dialog')
-      this.$container.append(exportDialog)
+      //this.$container.append(exportDialog)
       exportDialog.init(this.i18next)
     } catch (err) {
       console.error(err)
